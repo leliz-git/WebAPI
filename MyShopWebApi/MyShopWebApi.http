@@ -1,0 +1,6 @@
+@MyShopWebApi_HostAddress = http://localhost:5146
+
+GET {{MyShopWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
