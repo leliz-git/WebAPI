@@ -4,28 +4,33 @@ using Repositories;
 using Zxcvbn;
 namespace Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        UserRepository userRepository = new UserRepository();
+        private readonly IUserRepository _userRepository;
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+
+        }
         public User Register(User user)
         {
             //return userRepository.Register(user);
-            if(CheckPassword(user.password)<2)
+            if (CheckPassword(user.password) < 2)
             {
                 return null;
             }
-            List<User> users = userRepository.GetUsers();
+            List<User> users = _userRepository.GetUsers();
             User userfound = users.FirstOrDefault(u => u.userName == user.userName);
             if (userfound == null)
             {
-                return userRepository.Register(user);
+                return _userRepository.Register(user);
             }
             return null;
         }
         public User Login(string userName, string password)
         {
 
-            User userfound = userRepository.Login(userName);
+            User userfound = _userRepository.Login(userName);
             if (userfound == null)
             {
                 return null;
@@ -39,7 +44,7 @@ namespace Services
         public User UpDate(User user, int id)
         {
 
-            return userRepository.UpDate(user, id);
+            return _userRepository.UpDate(user, id);
         }
         public int CheckPassword(string password)
         {

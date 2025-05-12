@@ -1,22 +1,27 @@
 ﻿
 
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
-        public List<User> GetUsers()
+        MyShop_327882650Context dbContext;
+        public UserRepository(MyShop_327882650Context dbContext)
         {
-            List < User > users = System.IO.File.Exists("users.txt") ? System.IO.File.ReadLines("users.txt").Select(line => JsonSerializer.Deserialize<User>(line)).ToList() : new List<User>();
-            return users;
+            this.dbContext = dbContext;
+        }
+        public async Task<List<User>> GetUsers()
+        {
+            //List<User> users = System.IO.File.Exists("users.txt") ? System.IO.File.ReadLines("users.txt").Select(line => JsonSerializer.Deserialize<User>(line)).ToList() : new List<User>();
+            //return users;
+            return await dbContext.Users.ToListAsync();
         }
         public User Register(User user)
         {
-            List<User> users = GetUsers();
-            user.userId = users.Any()?users.Max(u=>u.userId)+1:1;
-            System.IO.File.AppendAllText("users.txt", JsonSerializer.Serialize(user) + Environment.NewLine);
+            
             return user;
             //if (user == null)
             //{
@@ -86,14 +91,14 @@ namespace Repositories
             {
                 return null;
             }
-            userToUp.firstName = user.firstName!=null?user.firstName:userToUp.userName;
-            userToUp.lastName = user.lastName!=null?user.lastName:userToUp.lastName;
-            userToUp.password = user.password!=null?user.password:userToUp.password;
-            userToUp.userName = user.userName!=null?user.userName:userToUp.userName;
+            userToUp.firstName = user.firstName != null ? user.firstName : userToUp.userName;
+            userToUp.lastName = user.lastName != null ? user.lastName : userToUp.lastName;
+            userToUp.password = user.password != null ? user.password : userToUp.password;
+            userToUp.userName = user.userName != null ? user.userName : userToUp.userName;
             File.WriteAllLines("users.txt", users.Select(u => JsonSerializer.Serialize(u)));
             return userToUp;
         }
-            //User newUser = new User();
+        //User newUser = new User();
         //    if (u.firstName != null)
         //    {
         //        newUser.firstName = u.firstName;
@@ -134,7 +139,7 @@ namespace Repositories
         //        System.IO.File.WriteAllText(filePath, text);
         //    }
         //}
-      
-       
+
+
     }
 }

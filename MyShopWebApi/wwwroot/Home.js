@@ -158,11 +158,10 @@ CheckPassword = async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(password)
+            body:JSON.stringify(password)
         });
         const result =await responsePost.json()
         if (responsePost.ok) {
- 
             return result;
         }
     }

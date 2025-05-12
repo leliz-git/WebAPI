@@ -10,7 +10,11 @@ namespace MyShopWebApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        UserService userService = new UserService();
+        private readonly IUserService _userService;
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
         // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -35,7 +39,7 @@ namespace MyShopWebApi.Controllers
         public ActionResult<User> Register([FromBody] User user)
         {
 
-            User u = userService.Register(user);
+            User u = _userService.Register(user);
             if (u!=null)
             {
                 return Ok(u);
@@ -50,7 +54,7 @@ namespace MyShopWebApi.Controllers
         {
 
 
-            User u = userService.Login(user.userName,user.password);
+            User u = _userService.Login(user.userName,user.password);
             if (u!=null)
             {
                 return Ok(u);
@@ -64,7 +68,7 @@ namespace MyShopWebApi.Controllers
         {
 
 
-            int result = userService.CheckPassword(password);
+            int result = _userService.CheckPassword(password);
         
             if (result>-1)
             {
@@ -121,7 +125,7 @@ namespace MyShopWebApi.Controllers
             //    System.IO.File.WriteAllText(filePath, text);
             //}
 
-            userService.UpDate(u,id);
+            _userService.UpDate(u,id);
 
         }
 
