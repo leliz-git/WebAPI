@@ -91,7 +91,7 @@ Login = async () => {
         //alert(responsePost)
         userDatails = await responsePost.json()
         if (responsePost.ok) {
-            alert(`${userDatails.firstName} loginnnnn`);
+            alert(`${userDatails.firstName} login!`);
             console.log(userDatails);
         }
 
@@ -135,7 +135,7 @@ const UpDate = async () => {
         lastName: lastname
     }
     const id = localStorage.getItem("UserId")
-    alert(id)
+    alert("user", id)
     const responsePost = await fetch(`api/Users/${id}`, {
         method: 'Put',
         headers: {

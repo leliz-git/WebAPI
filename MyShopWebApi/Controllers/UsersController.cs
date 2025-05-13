@@ -15,6 +15,7 @@ namespace MyShopWebApi.Controllers
         {
             _userService = userService;
         }
+
         // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -36,10 +37,10 @@ namespace MyShopWebApi.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<User> Register([FromBody] User user)
+        public async Task<ActionResult<User>> Register([FromBody] User user)
         {
 
-            User u = _userService.Register(user);
+            User u = await _userService.Register(user);
             if (u!=null)
             {
                 return Ok(u);
@@ -50,11 +51,11 @@ namespace MyShopWebApi.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Login([FromBody] User user)
+        public async Task<ActionResult<User>> Login([FromBody] User user)
         {
 
 
-            User u = _userService.Login(user.userName,user.password);
+            User u = await _userService.Login(user.userName,user.password);
             if (u!=null)
             {
                 return Ok(u);
@@ -83,47 +84,7 @@ namespace MyShopWebApi.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]User u)
         {
-            //User newUser=new User();
-
-            //if(u.firstName!=null)
-            //{
-            //    newUser.firstName = u.firstName;
-            //}
-            //if (u.lastName != null)
-            //{
-            //    newUser.lastName = u.lastName;
-            //}
-            //if (u.password != null)
-            //{
-            //    newUser.password = u.password;
-            //}
-            //if (u.userName != null)
-            //{
-            //    newUser.userName = u.userName;
-            //}
-            //newUser.userId = id;
-            //string filePath = Path.Combine(Directory.GetCurrentDirectory(), "users.txt");
-
-
-            //string textToReplace = string.Empty;
-            //using (StreamReader reader = System.IO.File.OpenText(filePath))
-            //{
-            //    string currentUserInFile;
-            //    while ((currentUserInFile = reader.ReadLine()) != null)
-            //    {
-
-            //        User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-            //        if (user.userId == id)
-            //            textToReplace = currentUserInFile;
-            //    }
-            //}
-
-            //if (textToReplace != string.Empty)
-            //{
-            //    string text = System.IO.File.ReadAllText(filePath);
-            //    text = text.Replace(textToReplace, JsonSerializer.Serialize(newUser));
-            //    System.IO.File.WriteAllText(filePath, text);
-            //}
+            
 
             _userService.UpDate(u,id);
 

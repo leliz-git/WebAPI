@@ -12,39 +12,39 @@ namespace Services
             _userRepository = userRepository;
 
         }
-        public User Register(User user)
+        public async Task<User>Register(User user)
         {
             //return userRepository.Register(user);
             if (CheckPassword(user.password) < 2)
             {
                 return null;
             }
-            List<User> users = _userRepository.GetUsers();
+            List<User> users = await _userRepository.GetUsers();
             User userfound = users.FirstOrDefault(u => u.userName == user.userName);
             if (userfound == null)
             {
-                return _userRepository.Register(user);
+                return await _userRepository.Register(user);
             }
             return null;
         }
-        public User Login(string userName, string password)
+        public async Task<User> Login(string userName, string password)
         {
 
-            User userfound = _userRepository.Login(userName);
+            User userfound = await _userRepository.Login(userName);
             if (userfound == null)
             {
                 return null;
             }
-            if (userfound.password == password)
+            if (userfound.password.Trim() == password)
             {
                 return userfound;
             }
             return null;
         }
-        public User UpDate(User user, int id)
+        public async Task<User> UpDate(User user, int id)
         {
 
-            return _userRepository.UpDate(user, id);
+            return await _userRepository.UpDate(user, id);
         }
         public int CheckPassword(string password)
         {
