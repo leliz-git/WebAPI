@@ -4,6 +4,6 @@ namespace Services
 {
     public interface IProductService
     {
-        Task<List<Product>> GetProducts()
+        Task<List<Product>> GetProducts();
     }
 }
