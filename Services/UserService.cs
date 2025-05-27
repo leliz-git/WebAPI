@@ -1,20 +1,21 @@
 ﻿using Entities;
-
+using DTO;
 using Repositories;
 using Zxcvbn;
+using AutoMapper;
 namespace Services
 {
     public class UserService : IUserService
     {
+        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-
+            _mapper = mapper;
         }
-        public async Task<User>Register(User user)
+        public async Task<UserDTO> Register(UserRegisterDTO user)
         {
-            //return userRepository.Register(user);
             if (CheckPassword(user.password) < 2)
             {
                 return null;
@@ -23,21 +24,26 @@ namespace Services
             User userfound = users.FirstOrDefault(u => u.userName == user.userName);
             if (userfound == null)
             {
-                return await _userRepository.Register(user);
+                var user1 = _mapper.Map<User>(user);
+                var userRegister = await _userRepository.Register(user1);
+
+                return _mapper.Map<UserDTO>(userRegister);
             }
             return null;
         }
-        public async Task<User> Login(string userName, string password)
+
+        public async Task<UserDTO> Login(UserLoginDTO user)
         {
 
-            User userfound = await _userRepository.Login(userName);
+            User userfound = await _userRepository.Login(user.userName);
             if (userfound == null)
             {
                 return null;
             }
-            if (userfound.password.Trim() == password)
+            //Console.WriteLine(userfound);
+            if (userfound.password.Trim() == user.password)
             {
-                return userfound;
+                return _mapper.Map<UserDTO>(userfound);
             }
             return null;
         }

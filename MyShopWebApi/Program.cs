@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using Services;
+using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +18,15 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
 builder.Services.AddDbContext<MyShop_327882650Context>(options =>
     options.UseSqlServer("Data Source=SRV2\\PUPILS;Initial Catalog=MyShop_327882650 ; Integrated Security=True; Trusted_Connection=True;TrustServerCertificate=True"));
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {

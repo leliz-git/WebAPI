@@ -2,7 +2,9 @@
 using Services;
 using System.Text.Json;
 using Entities;
+
 using Repositories;
+using DTO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MyShopWebApi.Controllers
@@ -19,9 +21,9 @@ namespace MyShopWebApi.Controllers
         }
         // GET: api/<CategoryController>
         [HttpGet]
-        public async Task<ActionResult<List<Category>>> Get()
+        public async Task<ActionResult<List<CategoryDTO>>> Get()
         {
-            List<Category> categories = await _categoryService.GetCategories();
+            List<CategoryDTO> categories = await _categoryService.GetCategories();
             if (categories == null)
                 return NotFound();
             return categories;

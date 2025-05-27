@@ -2,6 +2,7 @@
 using Services;
 using System.Text.Json;
 using Entities;
+using DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,9 +21,9 @@ namespace MyShopWebApi.Controllers
 
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> Get()
+        public async Task<ActionResult<List<ProductDTO>>> Get([FromQuery] string? desc, [FromQuery] int? minprice, [FromQuery] int? maxprice, [FromQuery] int?[] categoriesId)
         {
-            List<Product> products = await _productService.GetProducts();
+            List<ProductDTO> products = await _productService.GetProducts(desc, minprice, maxprice, categoriesId);
             if (products == null)
                 return NotFound();
             return products;

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Services;
+using DTO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MyShopWebApi.Controllers
@@ -37,10 +38,10 @@ namespace MyShopWebApi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register([FromBody] User user)
+        public async Task<ActionResult<UserDTO>> Register([FromBody] UserRegisterDTO user)
         {
 
-            User u = await _userService.Register(user);
+            UserDTO u = await _userService.Register(user);
             if (u!=null)
             {
                 return Ok(u);
@@ -51,11 +52,9 @@ namespace MyShopWebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login([FromBody] User user)
+        public async Task<ActionResult<UserDTO>> Login([FromBody] UserLoginDTO user)
         {
-
-
-            User u = await _userService.Login(user.userName,user.password);
+            UserDTO u = await _userService.Login(user);
             if (u!=null)
             {
                 return Ok(u);

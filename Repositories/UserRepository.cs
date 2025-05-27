@@ -27,10 +27,11 @@ namespace Repositories
 
         public async Task<User> Login(string userName)//(User user)
         {
-            
-            return await dbContext.Users.FirstOrDefaultAsync(u => u.userName == userName);
-            
-         
+            //Console.WriteLine(GetUsers());
+            User user1 =await dbContext.Users.FirstOrDefaultAsync(u => u.userName == userName);
+            return user1;
+
+
         }
         public async Task <User> UpDate(User user, int id)
         {

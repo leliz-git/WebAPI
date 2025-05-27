@@ -30,7 +30,15 @@ public partial class Product
     [StringLength(50)]
     public string Description { get; set; }
 
+    [Column("IMAGE_URL")]
+    [StringLength(50)]
+    public string ImageUrl { get; set; }
+
     [ForeignKey("CategoryId")]
     [InverseProperty("Products")]
+    //[JsonIgnore]
     public virtual Category Category { get; set; }
+
+    [InverseProperty("Product")]
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Entities;
 
-[Keyless]
 [Table("ORDER_ITEM")]
 public partial class OrderItem
 {
+    [Key]
     [Column("ORDER_ITEM_ID")]
     public int OrderItemId { get; set; }
 
@@ -25,8 +25,12 @@ public partial class OrderItem
     public int Quantity { get; set; }
 
     [ForeignKey("OrderId")]
+    [InverseProperty("OrderItems")]
+    //[JsonIgnore]
     public virtual Order Order { get; set; }
 
     [ForeignKey("ProductId")]
+    [InverseProperty("OrderItems")]
+    //[JsonIgnore]
     public virtual Product Product { get; set; }
 }

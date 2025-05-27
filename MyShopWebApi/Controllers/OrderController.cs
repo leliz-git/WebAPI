@@ -3,6 +3,7 @@ using Entities;
 using Repositories;
 using Services;
 using Microsoft.Identity.Client.Extensibility;
+using DTO;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,9 +36,9 @@ namespace MyShopWebApi.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
-        public async Task<Order> Post([FromBody] Order order)
+        public async Task<OrderDTO> Post([FromBody] OrderDTO order)
         {
-            Order Neworder = await _orderService.CreateOrder(order);
+            OrderDTO Neworder = await _orderService.CreateOrder(order);
             if (Neworder != null)
                 return Neworder;
             return null;

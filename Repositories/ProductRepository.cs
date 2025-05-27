@@ -16,9 +16,20 @@ namespace Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<List<Product>> GetProducts()
+        public async Task<List<Product>> GetProducts(string?desc, int?minprice, int?maxprice, int?[]categoriesId)
         {
-            return await dbContext.Products.ToListAsync();
+            var query = dbContext.Products.Include(product => product.Category)
+       .Where(product =>
+           (desc == null ? true : product.Description.Contains(desc)) &&
+           (minprice == null ? true : product.Price >= minprice) &&
+           (maxprice == null ? true : product.Price <= maxprice) &&
+           (categoriesId.Length == 0 ? true : categoriesId.Contains(product.CategoryId))
+       )
+       .OrderBy(product => product.Price);
+
+            List<Product> products = await query.ToListAsync();
+
+            return products;
         }
     }
 }
