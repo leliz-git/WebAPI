@@ -42,7 +42,7 @@ namespace Repositories
             {
                 return null;
             }
-            userToUp.firstName = user.firstName != null ? user.firstName : userToUp.userName;
+            userToUp.firstName = user.firstName != null ? user.firstName : userToUp.firstName;
             userToUp.lastName = user.lastName != null ? user.lastName : userToUp.lastName;
             userToUp.password = user.password != null ? user.password : userToUp.password;
             userToUp.userName = user.userName != null ? user.userName : userToUp.userName;
